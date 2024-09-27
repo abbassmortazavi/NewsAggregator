@@ -1,0 +1,289 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Api Documentation",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Athentication"
+                ],
+                "summary": "Athentication",
+                "operationId": "afd167661891a2c4c1b49a04643b9223",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "User Email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "User Password",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Ungültige Anforderung."
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "403": {
+                        "description": "Verboten."
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "get": {
+                "tags": [
+                    "Athentication"
+                ],
+                "summary": "Athentication",
+                "operationId": "d9e45f8340c8b8a80506259806173616",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Athentication"
+                ],
+                "summary": "Athentication",
+                "operationId": "482fd8cbb98dc3225fa0e7ac40c1abe6",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "User Email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "User Password",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "User name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        },
+        "/api/password/send-code": {
+            "post": {
+                "tags": [
+                    "Athentication"
+                ],
+                "summary": "Athentication",
+                "operationId": "58b0bf6a64b905aa9ed2cea4d2e08ffd",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "User Email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        },
+        "/api/verifyCode": {
+            "post": {
+                "tags": [
+                    "Athentication"
+                ],
+                "summary": "Athentication",
+                "operationId": "70ee25880ed0edc13ff44b09f5bc6817",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "User Email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "description": "Verification Code",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        },
+        "/api/password/reset-password": {
+            "post": {
+                "tags": [
+                    "Athentication"
+                ],
+                "summary": "Athentication",
+                "operationId": "9a20c481546740b50909ddec36f18265",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "User Email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "description": "Password Confirmation",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Password",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Athentication",
+            "description": "Athentication"
+        }
+    ]
+}

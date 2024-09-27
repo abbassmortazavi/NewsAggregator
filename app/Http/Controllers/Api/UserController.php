@@ -67,17 +67,9 @@ class UserController extends Controller
      *        description="Unauthenticated"
      *    ),
      * @OA\Response(
-     *       response=400,
-     *       description="Ungültige Anforderung."
-     *    ),
-     * @OA\Response(
      *       response=404,
      *       description="not found"
      *    ),
-     * @OA\Response(
-     *         response=403,
-     *         description="Verboten."
-     *     ),
      * @OA\Response(
      *         response=422,
      *         description="Unprocessable Entity"

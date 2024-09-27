@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\PasswordReset;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class ResetPasswordRequest extends FormRequest
 {
     /**
-     * @return bool
+     * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
@@ -15,13 +15,13 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function rules(): array
     {
         return [
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|min:6|confirmed',
         ];
     }
 }

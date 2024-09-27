@@ -23,6 +23,4 @@ interface AuthServiceInterface
      */
     public function register(array $attributes): mixed;
 
-    public function sendResetCode(array $attributes): mixed;
-
 }

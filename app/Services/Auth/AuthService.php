@@ -10,12 +10,12 @@
 
 namespace App\Services\Auth;
 
-use App\Repositories\Auth\AuthRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
 class AuthService implements AuthServiceInterface
 {
-    public function __construct(protected AuthRepositoryInterface $authRepository)
+    public function __construct(protected UserRepositoryInterface $authRepository)
     {
     }
 
@@ -30,10 +30,15 @@ class AuthService implements AuthServiceInterface
 
     /**
      * @param array $attributes
-     * @return JsonResponse
+     * @return array
      */
-    public function register(array $attributes): JsonResponse
+    public function register(array $attributes): array
     {
         return $this->authRepository->register($attributes);
+    }
+
+    public function sendResetCode(array $attributes): mixed
+    {
+        return $this->authRepository->sendResetCode($attributes);
     }
 }

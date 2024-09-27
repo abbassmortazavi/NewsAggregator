@@ -15,17 +15,74 @@ use App\Traits\UtilityResources\UtilityResources;
 use App\Transformers\ApiResponseResource;
 use Exception;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
     use UtilityResources;
 
+    /**
+     * @param AuthServiceInterface $service
+     * @param VerificationCodeServiceInterface $verificationCodeService
+     */
     public function __construct(protected AuthServiceInterface $service, protected VerificationCodeServiceInterface $verificationCodeService)
     {
     }
 
     /**
+     * @OA\Post(
+     *       path="/api/login",
+     *       summary="Athentication",
+     *       tags={"Athentication"},
+     *
+     *     @OA\Parameter(
+     *          name="email",
+     *          in="query",
+     *          required=true,
+     *          description="User Email",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="password",
+     *          in="query",
+     *          required=true,
+     *          description="User Password",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *     ),
+     *
+     * @OA\Response(
+     *       response=200,
+     *        description="Success",
+     *       @OA\MediaType(
+     *            mediaType="application/json",
+     *       )
+     *    ),
+     * @OA\Response(
+     *       response=401,
+     *        description="Unauthenticated"
+     *    ),
+     * @OA\Response(
+     *       response=400,
+     *       description="Ungültige Anforderung."
+     *    ),
+     * @OA\Response(
+     *       response=404,
+     *       description="not found"
+     *    ),
+     * @OA\Response(
+     *         response=403,
+     *         description="Verboten."
+     *     ),
+     * @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+     *     )
+     * )
      * @param LoginRequest $request
      * @return ApiResponseResource
      */
@@ -39,6 +96,59 @@ class UserController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *       path="/api/register",
+     *       summary="Athentication",
+     *       tags={"Athentication"},
+     *
+     *     @OA\Parameter(
+     *          name="email",
+     *          in="query",
+     *          required=true,
+     *          description="User Email",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="password",
+     *          in="query",
+     *          required=true,
+     *          description="User Password",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *     ),
+     *           @OA\Parameter(
+     *           name="name",
+     *           in="query",
+     *           required=true,
+     *           description="User name",
+     *           @OA\Schema(
+     *               type="string"
+     *           )
+     *      ),
+     *
+     * @OA\Response(
+     *       response=200,
+     *        description="Success",
+     *       @OA\MediaType(
+     *            mediaType="application/json",
+     *       )
+     *    ),
+     * @OA\Response(
+     *       response=401,
+     *        description="Unauthenticated"
+     *    ),
+     * @OA\Response(
+     *       response=404,
+     *       description="not found"
+     *    ),
+     * @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+     *     )
+     * )
      * @param UserRegisterRequest $request
      * @return ApiResponseResource
      */
@@ -52,7 +162,31 @@ class UserController extends Controller
     }
 
     /**
-     * @param UserRegisterRequest $request
+     * @OA\Get(
+     *       path="/api/register",
+     *       summary="Athentication",
+     *       tags={"Athentication"},
+     *       security={{"bearerAuth":{}}},
+     * @OA\Response(
+     *       response=200,
+     *        description="Success",
+     *       @OA\MediaType(
+     *            mediaType="application/json",
+     *       )
+     *    ),
+     * @OA\Response(
+     *       response=401,
+     *        description="Unauthenticated"
+     *    ),
+     * @OA\Response(
+     *       response=404,
+     *       description="not found"
+     *    ),
+     * @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+     *     )
+     * )
      * @return ApiResponseResource
      */
     public function logout(Request $request)
@@ -65,6 +199,41 @@ class UserController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *       path="/api/password/send-code",
+     *       summary="Athentication",
+     *       tags={"Athentication"},
+     *
+     *     @OA\Parameter(
+     *          name="email",
+     *          in="query",
+     *          required=true,
+     *          description="User Email",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *
+     * @OA\Response(
+     *       response=200,
+     *        description="Success",
+     *       @OA\MediaType(
+     *            mediaType="application/json",
+     *       )
+     *    ),
+     * @OA\Response(
+     *       response=401,
+     *        description="Unauthenticated"
+     *    ),
+     * @OA\Response(
+     *       response=404,
+     *       description="not found"
+     *    ),
+     * @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+     *     )
+     * )
      * @param SendPasswordResetRequest $request
      * @return ApiResponseResource
      */
@@ -78,6 +247,51 @@ class UserController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *       path="/api/verifyCode",
+     *       summary="Athentication",
+     *       tags={"Athentication"},
+     *
+     *     @OA\Parameter(
+     *          name="email",
+     *          in="query",
+     *          required=true,
+     *          description="User Email",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *
+     *      @OA\Parameter(
+     *           name="code",
+     *           in="query",
+     *           required=true,
+     *           description="Verification Code",
+     *           @OA\Schema(
+     *               type="string"
+     *           )
+     *       ),
+     *
+     * @OA\Response(
+     *       response=200,
+     *        description="Success",
+     *       @OA\MediaType(
+     *            mediaType="application/json",
+     *       )
+     *    ),
+     * @OA\Response(
+     *       response=401,
+     *        description="Unauthenticated"
+     *    ),
+     * @OA\Response(
+     *       response=404,
+     *       description="not found"
+     *    ),
+     * @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+     *     )
+     * )
      * @param VerifyPasswordResetRequest $request
      * @return ApiResponseResource
      */
@@ -91,6 +305,60 @@ class UserController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *       path="/api/password/reset-password",
+     *       summary="Athentication",
+     *       tags={"Athentication"},
+     *
+     *     @OA\Parameter(
+     *          name="email",
+     *          in="query",
+     *          required=true,
+     *          description="User Email",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *
+     *      @OA\Parameter(
+     *           name="password_confirmation",
+     *           in="query",
+     *           required=true,
+     *           description="Password Confirmation",
+     *           @OA\Schema(
+     *               type="string"
+     *           )
+     *       ),
+     *        @OA\Parameter(
+     *            name="password",
+     *            in="query",
+     *            required=true,
+     *            description="Password",
+     *            @OA\Schema(
+     *                type="string"
+     *            )
+     *        ),
+     *
+     * @OA\Response(
+     *       response=200,
+     *        description="Success",
+     *       @OA\MediaType(
+     *            mediaType="application/json",
+     *       )
+     *    ),
+     * @OA\Response(
+     *       response=401,
+     *        description="Unauthenticated"
+     *    ),
+     * @OA\Response(
+     *       response=404,
+     *       description="not found"
+     *    ),
+     * @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+     *     )
+     * )
      * @param ResetPasswordRequest $request
      * @return ApiResponseResource
      */

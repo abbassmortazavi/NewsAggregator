@@ -11,14 +11,14 @@ Route::get('/user', function (Request $request) {
 
 Route::controller(UserController::class)->group(function () {
     Route::post('/register', 'register');
-    Route::post('/login', 'login');
+    Route::post('/login', 'login')->middleware('throttle:api');
     Route::post('/password/reset-password', 'resetPassword');
     Route::post('/password/send-code', 'sendCode');
     Route::post('/verifyCode', 'verifyCode');
 });
 
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['api','middleware' => 'auth:sanctum'], function () {
     Route::get('/logout', [UserController::class, 'logout']);
 
 

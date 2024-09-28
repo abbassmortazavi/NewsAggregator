@@ -6,19 +6,17 @@ FROM php:8.3-fpm
 WORKDIR /var/www/html
 
 # Install system dependencies
-#RUN apt-get update && apt-get install -y \
-#    git \
-#    unzip \
-#    libpq-dev \
-#    libzip-dev \
-#    zip \
-#    && docker-php-ext-install pdo_mysql zip
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libpq-dev \
+    libzip-dev \
+    zip \
+    && docker-php-ext-install pdo_mysql zip
 
-RUN docker-php-ext-install pdo pdo_mysql bcmath
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
+COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
 # Copy application files
 COPY . .
 

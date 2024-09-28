@@ -16,8 +16,7 @@ class ArticleTest extends TestCase
      */
     public function test_it_can_fetch_articles(): void
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $this->loginUser();
         Article::factory()->count(5)->create();
 
         $response = $this->getJson('/api/articles');
@@ -63,8 +62,7 @@ class ArticleTest extends TestCase
      */
     public function test_it_can_fetch_a_single_article()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $this->loginUser();
         $article = Article::factory()->create();
 
         $response = $this->getJson("/api/articles/{$article->id}");
@@ -83,8 +81,7 @@ class ArticleTest extends TestCase
      */
     public function test_it_can_search_articles_by_keyword()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $this->loginUser();
         Article::factory()->create(['title' => 'Tech News']);
         Article::factory()->create(['title' => 'World News']);
 
@@ -93,5 +90,14 @@ class ArticleTest extends TestCase
         $response->assertOk();
         $response->assertJsonCount(1, 'data.data');
         $response->assertJsonFragment(['title' => 'Tech News']);
+    }
+
+    /**
+     * @return void
+     */
+    private function loginUser(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user, 'sanctum');
     }
 }

@@ -6,7 +6,7 @@ networks:
 services:
     nginx:
         image: nginx:stable-alpine
-        container_name: nginx
+        container_name: nginx_m
         ports:
             - "8082:80"
         volumes:
@@ -20,7 +20,7 @@ services:
 
     mysql:
         image: mysql:8.0.13
-        container_name: mysql
+        container_name: mysql_m
         restart: unless-stopped
         tty: true
         ports:
@@ -40,7 +40,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        container_name: php
+        container_name: php_m
         working_dir: /var/www/html
         volumes:
             - .:/var/www/html
@@ -52,11 +52,11 @@ services:
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         restart: always
-        container_name: phpmyadmin
+        container_name: phpmyadmin_m
         depends_on:
             - mysql
         ports:
-            - "8081:80"
+            - "8086:80"
         environment:
             PMA_HOST: mysql
             MYSQL_ROOT_PASSWORD: root
@@ -66,7 +66,7 @@ services:
 
     composer:
         image: composer:latest
-        container_name: composer
+        container_name: composer_m
         volumes:
             - .:/var/www/html
         working_dir: /var/www/html
@@ -77,7 +77,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        container_name: artisan
+        container_name: artisan_m
         volumes:
             - .:/var/www/html
         depends_on:
@@ -89,7 +89,7 @@ services:
 
     npm:
         image: node:latest
-        container_name: npm
+        container_name: npm_m
         volumes:
             - .:/var/www/html
         working_dir: /var/www/html

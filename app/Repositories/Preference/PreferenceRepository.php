@@ -8,6 +8,9 @@ use App\Repositories\Article\ArticleRepositoryInterface;
 
 class PreferenceRepository extends BaseRepository implements PreferenceRepositoryInterface
 {
+    /**
+     * @param Preference $model
+     */
     public function __construct(Preference $model)
     {
         parent::__construct($model);
@@ -38,5 +41,21 @@ class PreferenceRepository extends BaseRepository implements PreferenceRepositor
     {
         $user = auth()->user();
         return $user->preference ?? null;
+    }
+
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
+    public function updateOrCreate(array $attributes): mixed
+    {
+        return $this->model->query()->updateOrCreate(
+            ['user_id' => $attributes['id']],
+            [
+                'sources' => json_encode($attributes['sources']),
+                'categories' => json_encode($attributes['categories']),
+                'authors' => json_encode($attributes['authors']),
+            ]
+        );
     }
 }

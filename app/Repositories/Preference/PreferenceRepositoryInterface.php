@@ -13,4 +13,5 @@ interface PreferenceRepositoryInterface
      * @return mixed
      */
     public function personalizedFeed(): mixed;
+    public function updateOrCreate(array $attributes): mixed;
 }

@@ -2,13 +2,16 @@
 
 namespace App\Repositories\Article;
 
+use App\Base\BaseRepository;
 use App\Models\Article;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 
-class ArticleRepository implements ArticleRepositoryInterface
+class ArticleRepository extends BaseRepository implements ArticleRepositoryInterface
 {
-    public function __construct(protected Article $article)
+    public function __construct(Article $model)
     {
+        parent::__construct($model);
     }
 
     /**
@@ -17,7 +20,7 @@ class ArticleRepository implements ArticleRepositoryInterface
      */
     public function index(array $attributes): LengthAwarePaginator
     {
-        return $this->article->query()
+        return $this->model->query()
             ->when($attributes['keyword'], function ($query) use ($attributes) {
                 return $query->where('title', 'like', '%' . $attributes['keyword'] . '%');
             })

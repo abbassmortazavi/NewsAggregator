@@ -23,12 +23,12 @@ Route::controller(UserController::class)->group(function () {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/logout', [UserController::class, 'logout']);
 
-    Route::resource('articles', ArticleController::class)->middleware('throttle:api');
+    Route::resource('articles', ArticleController::class);
     Route::resource('preferences', PreferenceController::class)->middleware('throttle:api');
 
     Route::controller(PreferenceController::class)->middleware('throttle:api')->group(function () {
-        Route::post('/preferences', 'store');
-        Route::get('/preferences', 'show');
+        Route::post('/preferences', 'updateOrCreate');
+        Route::get('/preferences', 'userPreference');
         Route::get('/feed', 'personalizedFeed');
     });
 

@@ -3,12 +3,27 @@
 namespace App\Services\Preference;
 
 use App\Base\BaseService;
+use App\Repositories\Preference\PreferenceRepositoryInterface;
+use Illuminate\Database\Eloquent\Model;
 
 class PreferenceService extends BaseService implements PreferenceServiceInterface
 {
-    public function __construct($repository)
+    /**
+     * @param PreferenceRepositoryInterface $repository
+     */
+    public function __construct(PreferenceRepositoryInterface $repository)
     {
         parent::__construct($repository);
+    }
+
+    /**
+     * @param array $attributes
+     * @return Model
+     */
+    public function updateOrCreate(array $attributes): Model
+    {
+        $attributes['user_id'] = auth()->id();
+        return $this->repository->store($attributes);
     }
 
     /**

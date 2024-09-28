@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\Preference\PreferenceService;
+use App\Http\Requests\Preference\PreferenceStoreRequest;
 use App\Services\Preference\PreferenceServiceInterface;
 use App\Traits\UtilityResources\UtilityResources;
 use App\Transformers\ApiResponseResource;
@@ -23,6 +23,19 @@ class PreferenceController extends Controller
     }
 
     /**
+     * @param PreferenceStoreRequest $request
+     * @return ApiResponseResource
+     */
+    public function updateOrCreate(PreferenceStoreRequest $request)
+    {
+        try {
+            return $this->success($this->service->updateOrCreate($request->only('authors', 'categories', 'sources')), Response::HTTP_OK, 'List All User Preferences');
+        } catch (Exception $exception) {
+            return $this->error(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());
+        }
+    }
+
+    /**
      * @param Request $request
      * @return ApiResponseResource
      */
@@ -30,16 +43,20 @@ class PreferenceController extends Controller
     {
         try {
             return $this->success($this->service->userPreference(), Response::HTTP_OK, 'List All User Preferences');
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             return $this->error(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());
         }
     }
 
+    /**
+     * @param Request $request
+     * @return ApiResponseResource
+     */
     public function personalizedFeed(Request $request)
     {
         try {
             return $this->success($this->service->personalizedFeed(), Response::HTTP_OK, 'List All User Personalized Feed');
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             return $this->error(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());
         }
     }

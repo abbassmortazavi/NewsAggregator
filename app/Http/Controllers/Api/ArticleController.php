@@ -75,7 +75,7 @@ class ArticleController extends Controller
     public function index(ArticleIndexRequest $request)
     {
         try {
-            return $this->success($this->service->index($request->only('limit', 'page', 'per_page','keyword','category','source','date')), Response::HTTP_OK, 'List All Articles');
+            return $this->success($this->service->index($request->only( 'page', 'per_page','keyword','category','source','date')), Response::HTTP_OK, 'List All Articles');
         } catch (Exception $exception) {
             return $this->error(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());
         }

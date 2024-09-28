@@ -21,8 +21,11 @@ class ArticleIndexRequest extends FormRequest
     {
         return [
             'page' => 'nullable|integer|min:1',
-            'limit' => 'nullable|integer|min:1',
             'per_page' => 'nullable|integer|min:1',
+            'keyword' => 'nullable|string',
+            'category' => 'nullable|string',
+            'source' => 'nullable|string',
+            'date' => 'nullable|date',
         ];
     }
 }

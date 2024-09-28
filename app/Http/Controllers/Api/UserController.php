@@ -183,8 +183,9 @@ class UserController extends Controller
      */
     public function logout(Request $request)
     {
+       // dd($request->user()->currentAccessToken()->delete());
         try {
-            return $this->success($request->user()->currentAccessToken()->delete(), Response::HTTP_OK, 'User Logout Successfully!!');
+            return $this->success( auth()->user()->tokens()->delete(), Response::HTTP_OK, 'User Logout Successfully!!');
         } catch (Exception $exception) {
             return $this->error($exception->getCode(), $exception->getMessage());
         }

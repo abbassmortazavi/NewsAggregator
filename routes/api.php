@@ -24,8 +24,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/logout', [UserController::class, 'logout']);
 
     Route::resource('articles', ArticleController::class);
-    Route::resource('preferences', PreferenceController::class)->middleware('throttle:api');
-
     Route::controller(PreferenceController::class)->middleware('throttle:api')->group(function () {
         Route::post('/preferences', 'updateOrCreate');
         Route::get('/preferences', 'userPreference');

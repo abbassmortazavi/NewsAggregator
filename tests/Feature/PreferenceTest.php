@@ -2,19 +2,48 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
 use Tests\TestCase;
 
 class PreferenceTest extends TestCase
 {
     /**
-     * A basic feature test example.
+     * @return void
      */
-    public function test_example(): void
+    public function test_a_user_can_set_preferences()
     {
-        $response = $this->get('/');
+        $user = User::factory()->create();
 
-        $response->assertStatus(200);
+        $response = $this->actingAs($user, 'sanctum')->postJson('/api/preferences', [
+            'authors' => ['John Doe', 'Jane Smith'],
+            'categories' => ['Technology', 'Science'],
+            'sources' => ['NewsAPI', 'BBC'],
+        ]);
+
+        $response->assertOk();
+        $this->assertDatabaseHas('preferences', ['user_id' => $user->id]);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_it_can_fetch_user_preferences()
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user, 'sanctum')->postJson('/api/preferences', [
+            'authors' => ['John Doe'],
+            'categories' => ['Technology'],
+            'sources' => ['NewsAPI'],
+        ]);
+
+        $response = $this->actingAs($user, 'sanctum')->getJson('/api/preferences');
+
+        $response->assertOk();
+        $response->assertJsonFragment([
+            'authors' => ['John Doe'],
+            'categories' => ['Technology'],
+            'sources' => ['NewsAPI'],
+        ]);
     }
 }

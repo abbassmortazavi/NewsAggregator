@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,8 +19,9 @@ Route::controller(UserController::class)->group(function () {
 });
 
 
-Route::group(['api','middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/logout', [UserController::class, 'logout']);
 
+    Route::resource('articles', ArticleController::class)->middleware('throttle:api');
 
 });

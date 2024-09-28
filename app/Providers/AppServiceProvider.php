@@ -2,10 +2,15 @@
 
 namespace App\Providers;
 
+use App\Base\BaseRepository;
+use App\Repositories\Article\ArticleRepository;
+use App\Repositories\Article\ArticleRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\VerificationCode\VerificationCodeRepository;
 use App\Repositories\VerificationCode\VerificationCodeRepositoryInterface;
+use App\Services\Article\ArticleService;
+use App\Services\Article\ArticleServiceInterface;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceInterface;
 use App\Services\VerificationCode\VerificationCodeService;
@@ -27,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(VerificationCodeServiceInterface::class, VerificationCodeService::class);
         $this->app->bind(VerificationCodeRepositoryInterface::class, VerificationCodeRepository::class);
+
+        $this->app->bind(ArticleRepositoryInterface::class, ArticleRepository::class);
+        $this->app->bind(ArticleServiceInterface::class, ArticleService::class);
+
     }
 
     /**

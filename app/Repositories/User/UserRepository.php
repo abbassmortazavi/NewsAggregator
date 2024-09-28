@@ -34,6 +34,9 @@ class UserRepository implements UserRepositoryInterface
     {
         throw_if(!Auth::attempt($attributes), new \Exception('The provided credentials are incorrect.', Response::HTTP_INTERNAL_SERVER_ERROR));
         $user = $this->getUser($attributes['email']);
+        if (count($user->tokens) > 0) {
+            $user->tokens()->delete();
+        }
         $token = $user->createToken('auth_token')->plainTextToken;
         $data['access_token'] = $token;
         $data['token_type'] = 'Bearer';

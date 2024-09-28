@@ -26,6 +26,11 @@ class BaseService
         return $this->repository->index($attributes);
     }
 
+    public function show($model): Model
+    {
+        return $this->repository->show($model);
+    }
+
     /**
      * @param array $attributes
      * @return Model

@@ -2,13 +2,19 @@
 
 namespace App\Repositories\Article;
 
+use App\Base\BaseRepository;
 use App\Models\Article;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 
-class ArticleRepository implements ArticleRepositoryInterface
+class ArticleRepository extends BaseRepository implements ArticleRepositoryInterface
 {
-    public function __construct(protected Article $article)
+    /**
+     * @param Article $model
+     */
+    public function __construct(Article $model)
     {
+        parent::__construct($model);
     }
 
     /**
@@ -17,7 +23,7 @@ class ArticleRepository implements ArticleRepositoryInterface
      */
     public function index(array $attributes): LengthAwarePaginator
     {
-        return $this->article->query()
+        return $this->model->query()
             ->when($attributes['keyword'], function ($query) use ($attributes) {
                 return $query->where('title', 'like', '%' . $attributes['keyword'] . '%');
             })
@@ -30,6 +36,19 @@ class ArticleRepository implements ArticleRepositoryInterface
             ->when($attributes['date'], function ($query) use ($attributes) {
                 return $query->whereDate('published_at', $attributes['date']);
             })
-            ->paginate($attributes['per_page'], $columns = ['*'], $pageName = 'page', $attributes['page'], $attributes['limit']);
+            ->paginate($attributes['per_page'], $columns = ['*'], $pageName = 'page', $attributes['page']);
+    }
+
+    /**
+     * @param object $preference
+     * @return LengthAwarePaginator
+     */
+    public function getUserPreference(object $preference): LengthAwarePaginator
+    {
+        return $preference->query()
+            ->whereIn('source', $preference->sources)
+            ->orWhereIn('category', $preference->categories)
+            ->orWhereIn('author', $preference->authors)
+            ->paginate(10);
     }
 }

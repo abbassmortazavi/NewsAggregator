@@ -10,6 +10,9 @@ use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceInterface;
 use App\Services\VerificationCode\VerificationCodeService;
 use App\Services\VerificationCode\VerificationCodeServiceInterface;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(2)->by(optional($request->user())->id ?: $request->ip());
+        });
     }
 }

@@ -25,6 +25,50 @@ class ArticleController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *       path="/api/articles?page={page}&per_page={per_page}",
+     *       summary="Article",
+     *       tags={"Article"},
+     *
+     *     @OA\Parameter(
+     *          name="page",
+     *          in="query",
+     *          required=false,
+     *          description="Article Page",
+     *          @OA\Schema(
+     *              type="int"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="per_page",
+     *          in="query",
+     *          required=false,
+     *          description="Article Per Page",
+     *          @OA\Schema(
+     *              type="int"
+     *          )
+     *     ),
+     *
+     * @OA\Response(
+     *       response=200,
+     *        description="Success",
+     *       @OA\MediaType(
+     *            mediaType="application/json",
+     *       )
+     *    ),
+     * @OA\Response(
+     *       response=401,
+     *        description="Unauthenticated"
+     *    ),
+     * @OA\Response(
+     *       response=404,
+     *       description="not found"
+     *    ),
+     * @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+     *     )
+     * )
      * @param ArticleIndexRequest $request
      * @return ApiResponseResource
      */
@@ -38,13 +82,48 @@ class ArticleController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *       path="/api/articles/{id}",
+     *       summary="Article",
+     *       tags={"Article"},
+     *
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="query",
+     *          required=false,
+     *          description="Article Id",
+     *          @OA\Schema(
+     *              type="int"
+     *          )
+     *      ),
+     *
+     * @OA\Response(
+     *       response=200,
+     *        description="Success",
+     *       @OA\MediaType(
+     *            mediaType="application/json",
+     *       )
+     *    ),
+     * @OA\Response(
+     *       response=401,
+     *        description="Unauthenticated"
+     *    ),
+     * @OA\Response(
+     *       response=404,
+     *       description="not found"
+     *    ),
+     * @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+     *     )
+     * )
      * @param Article $article
      * @return ApiResponseResource
      */
     public function show(Article $article)
     {
         try {
-            return $this->success($article, Response::HTTP_OK, 'List All Articles');
+            return $this->success($article, Response::HTTP_OK, 'Article Details');
         } catch (Exception $exception) {
             return $this->error(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());
         }

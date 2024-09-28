@@ -30,6 +30,19 @@ class ArticleRepository implements ArticleRepositoryInterface
             ->when($attributes['date'], function ($query) use ($attributes) {
                 return $query->whereDate('published_at', $attributes['date']);
             })
-            ->paginate($attributes['per_page'], $columns = ['*'], $pageName = 'page', $attributes['page'], $attributes['limit']);
+            ->paginate($attributes['per_page'], $columns = ['*'], $pageName = 'page', $attributes['page']);
+    }
+
+    /**
+     * @param object $preference
+     * @return LengthAwarePaginator
+     */
+    public function getUserPreference(object $preference): LengthAwarePaginator
+    {
+        return $this->article->query()
+            ->whereIn('source', $preference->sources)
+            ->orWhereIn('category', $preference->categories)
+            ->orWhereIn('author', $preference->authors)
+            ->paginate(10);
     }
 }

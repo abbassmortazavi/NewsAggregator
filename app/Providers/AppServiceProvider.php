@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Base\BaseRepository;
 use App\Repositories\Article\ArticleRepository;
 use App\Repositories\Article\ArticleRepositoryInterface;
+use App\Repositories\Preference\PreferenceRepository;
+use App\Repositories\Preference\PreferenceRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\VerificationCode\VerificationCodeRepository;
@@ -13,6 +15,8 @@ use App\Services\Article\ArticleService;
 use App\Services\Article\ArticleServiceInterface;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceInterface;
+use App\Services\Preference\PreferenceService;
+use App\Services\Preference\PreferenceServiceInterface;
 use App\Services\VerificationCode\VerificationCodeService;
 use App\Services\VerificationCode\VerificationCodeServiceInterface;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -35,6 +39,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(ArticleRepositoryInterface::class, ArticleRepository::class);
         $this->app->bind(ArticleServiceInterface::class, ArticleService::class);
+
+        $this->app->bind(PreferenceServiceInterface::class, PreferenceService::class);
+        $this->app->bind(PreferenceRepositoryInterface::class, PreferenceRepository::class);
 
     }
 

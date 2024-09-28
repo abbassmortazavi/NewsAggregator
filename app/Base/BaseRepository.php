@@ -59,4 +59,13 @@ class BaseRepository
     {
         return $this->model->query()->paginate($attributes['per_page'], $columns = ['*'], $pageName = 'page', $attributes['page'], $attributes['limit']);
     }
+
+    /**
+     * @param Model $model
+     * @return Model
+     */
+    public function show(Model $model): Model
+    {
+        return $model;
+    }
 }

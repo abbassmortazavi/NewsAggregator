@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ArticleController;
+use App\Http\Controllers\Api\PreferenceController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,5 +24,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/logout', [UserController::class, 'logout']);
 
     Route::resource('articles', ArticleController::class)->middleware('throttle:api');
+    Route::resource('preferences', PreferenceController::class)->middleware('throttle:api');
+
+    Route::controller(PreferenceController::class)->middleware('throttle:api')->group(function () {
+        Route::post('/preferences', 'store');
+        Route::get('/preferences', 'show');
+        Route::get('/feed', 'personalizedFeed');
+    });
+
 
 });

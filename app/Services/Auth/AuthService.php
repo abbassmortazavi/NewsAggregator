@@ -36,9 +36,4 @@ class AuthService implements AuthServiceInterface
     {
         return $this->authRepository->register($attributes);
     }
-
-    public function sendResetCode(array $attributes): mixed
-    {
-        return $this->authRepository->sendResetCode($attributes);
-    }
 }

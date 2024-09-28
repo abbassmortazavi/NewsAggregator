@@ -21,7 +21,6 @@ class PreferenceRepository extends BaseRepository implements PreferenceRepositor
      */
     public function userPreference(): mixed
     {
-
         return $this->getUserPreference();
     }
 
@@ -52,9 +51,9 @@ class PreferenceRepository extends BaseRepository implements PreferenceRepositor
         return $this->model->query()->updateOrCreate(
             ['user_id' => $attributes['id']],
             [
-                'sources' => json_encode($attributes['sources']),
-                'categories' => json_encode($attributes['categories']),
-                'authors' => json_encode($attributes['authors']),
+                'sources' => $attributes['sources'],
+                'categories' => $attributes['categories'],
+                'authors' => $attributes['authors'],
             ]
         );
     }

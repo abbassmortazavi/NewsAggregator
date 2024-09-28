@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArticleRepository extends BaseRepository implements ArticleRepositoryInterface
 {
+    /**
+     * @param Article $model
+     */
     public function __construct(Article $model)
     {
         parent::__construct($model);
@@ -42,7 +45,7 @@ class ArticleRepository extends BaseRepository implements ArticleRepositoryInter
      */
     public function getUserPreference(object $preference): LengthAwarePaginator
     {
-        return $this->article->query()
+        return $preference->query()
             ->whereIn('source', $preference->sources)
             ->orWhereIn('category', $preference->categories)
             ->orWhereIn('author', $preference->authors)

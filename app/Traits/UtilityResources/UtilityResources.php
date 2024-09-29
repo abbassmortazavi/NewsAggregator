@@ -3,7 +3,6 @@
 namespace App\Traits\UtilityResources;
 
 use App\Transformers\ApiResponseResource;
-use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
 trait UtilityResources
 {

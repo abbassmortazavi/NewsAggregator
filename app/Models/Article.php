@@ -14,10 +14,18 @@ class Article extends Model
     protected $fillable = [
         'title',
         'content',
+        'type',
+        'description',
         'author',
         'source',
         'category',
+        'url',
+        'url_to_image',
         'published_at'
     ];
 
+    protected $casts = [
+        'published_at' => 'datetime',
+        'source' => 'array'
+    ];
 }

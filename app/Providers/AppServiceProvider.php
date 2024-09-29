@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Base\BaseRepository;
 use App\Repositories\Article\ArticleRepository;
 use App\Repositories\Article\ArticleRepositoryInterface;
 use App\Repositories\Preference\PreferenceRepository;
@@ -20,8 +19,8 @@ use App\Services\Preference\PreferenceServiceInterface;
 use App\Services\VerificationCode\VerificationCodeService;
 use App\Services\VerificationCode\VerificationCodeServiceInterface;
 use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

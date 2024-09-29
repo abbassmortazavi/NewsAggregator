@@ -11,10 +11,12 @@
 namespace App\Services\Auth;
 
 use App\Repositories\User\UserRepositoryInterface;
-use Illuminate\Http\JsonResponse;
 
 class AuthService implements AuthServiceInterface
 {
+    /**
+     * @param UserRepositoryInterface $authRepository
+     */
     public function __construct(protected UserRepositoryInterface $authRepository)
     {
     }

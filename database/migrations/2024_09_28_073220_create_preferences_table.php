@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('preferences', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->index()->constrained()->onDelete('cascade');
             $table->json('sources')->nullable();
             $table->json('categories')->nullable();
             $table->json('authors')->nullable();

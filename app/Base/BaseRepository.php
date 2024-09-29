@@ -57,7 +57,8 @@ class BaseRepository
      */
     public function index(array $attributes): LengthAwarePaginator
     {
-        return $this->model->query()->paginate($attributes['per_page'], $columns = ['*'], $pageName = 'page', $attributes['page'], $attributes['limit']);
+        return $this->model->query()
+            ->paginate($attributes['per_page'], $columns = ['*'], $pageName = 'page', $attributes['page'], $attributes['limit']);
     }
 
     /**

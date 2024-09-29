@@ -11,8 +11,8 @@
 namespace App\Repositories\User;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +32,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function login(array $attributes): array
     {
-        throw_if(!Auth::attempt($attributes), new \Exception('The provided credentials are incorrect.', Response::HTTP_INTERNAL_SERVER_ERROR));
+        throw_if(!Auth::attempt($attributes), new Exception('The provided credentials are incorrect.', Response::HTTP_INTERNAL_SERVER_ERROR));
         $user = $this->getUser($attributes['email']);
         if (count($user->tokens) > 0) {
             $user->tokens()->delete();
@@ -49,7 +49,7 @@ class UserRepository implements UserRepositoryInterface
      * @param array $attributes
      * @return array
      */
-    public function register(array $attributes)
+    public function register(array $attributes): array
     {
         $user = $this->user->query()->create([
             'name' => $attributes['name'],

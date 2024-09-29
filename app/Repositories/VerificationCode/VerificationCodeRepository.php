@@ -14,6 +14,9 @@ use App\Models\VerificationCode;
 
 class VerificationCodeRepository implements VerificationCodeRepositoryInterface
 {
+    /**
+     * @param VerificationCode $verificationCode
+     */
     public function __construct(protected VerificationCode $verificationCode)
     {
     }

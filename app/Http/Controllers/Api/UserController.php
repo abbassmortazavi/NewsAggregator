@@ -15,7 +15,6 @@ use App\Traits\UtilityResources\UtilityResources;
 use App\Transformers\ApiResponseResource;
 use Exception;
 use Illuminate\Http\Request;
-use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -183,9 +182,8 @@ class UserController extends Controller
      */
     public function logout(Request $request)
     {
-       // dd($request->user()->currentAccessToken()->delete());
         try {
-            return $this->success( auth()->user()->tokens()->delete(), Response::HTTP_OK, 'User Logout Successfully!!');
+            return $this->success(auth()->user()->tokens()->delete(), Response::HTTP_OK, 'User Logout Successfully!!');
         } catch (Exception $exception) {
             return $this->error($exception->getCode(), $exception->getMessage());
         }

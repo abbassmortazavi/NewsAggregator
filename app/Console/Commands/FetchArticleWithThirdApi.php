@@ -20,7 +20,7 @@ class FetchArticleWithThirdApi extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Fetch Article From Other Resource...';
 
     /**
      * Execute the console command.
@@ -29,7 +29,7 @@ class FetchArticleWithThirdApi extends Command
     {
         $this->fetchFromNewsApi();
         $this->fetchNewsFromGuardian();
-        $this->info('Fetch article successfully');
+        $this->info('Fetch article Successfully!!!');
     }
 
     /**

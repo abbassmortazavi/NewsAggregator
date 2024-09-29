@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Article\ArticleIndexRequest;
+use App\Http\Requests\Article\ArticleSearchRequest;
+use App\Http\Resources\Article\ArticleSearchResource;
 use App\Models\Article;
 use App\Services\Article\ArticleServiceInterface;
 use App\Traits\UtilityResources\UtilityResources;
 use App\Transformers\ApiResponseResource;
 use Exception;
+use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 
 class ArticleController extends Controller
@@ -67,13 +70,13 @@ class ArticleController extends Controller
      *         description="Unprocessable Entity"
      *     )
      * )
-     * @param ArticleIndexRequest $request
+     * @param Request $request
      * @return ApiResponseResource
      */
-    public function index(ArticleIndexRequest $request)
+    public function index(Request $request)
     {
         try {
-            return $this->success($this->service->index($request->only('page', 'per_page', 'keyword', 'category', 'source', 'date')), Response::HTTP_OK, 'List All Articles');
+            return $this->success($this->service->index($request->only('page', 'per_page')), Response::HTTP_OK, 'List All Articles');
         } catch (Exception $exception) {
             return $this->error(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());
         }
@@ -122,6 +125,75 @@ class ArticleController extends Controller
     {
         try {
             return $this->success($article, Response::HTTP_OK, 'Article Details');
+        } catch (Exception $exception) {
+            return $this->error(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *       path="/api/articles/search",
+     *       summary="Article",
+     *       tags={"Article"},
+     *
+     *     @OA\Parameter(
+     *          name="category",
+     *          in="query",
+     *          required=false,
+     *          description="Article Category",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="source",
+     *          in="query",
+     *          required=false,
+     *          description="Article Per Source",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *           name="date",
+     *           in="query",
+     *           required=false,
+     *           description="Article Date",
+     *           @OA\Schema(
+     *               type="string"
+     *           )
+     *      ),
+     *
+     * @OA\Response(
+     *       response=200,
+     *        description="Success",
+     *       @OA\MediaType(
+     *            mediaType="application/json",
+     *       )
+     *    ),
+     * @OA\Response(
+     *       response=401,
+     *        description="Unauthenticated"
+     *    ),
+     * @OA\Response(
+     *       response=404,
+     *       description="not found"
+     *    ),
+     * @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+     *     )
+     * )
+     * @param ArticleSearchRequest $request
+     * @return ApiResponseResource
+     */
+    public function search(ArticleSearchRequest $request)
+    {
+        try {
+            $result = ArticleSearchResource::collection($this->service->search($request->only('keyword', 'category', 'source', 'date')));
+
+
+            return $this->success($result, Response::HTTP_OK, 'Search Article Successfully!');
         } catch (Exception $exception) {
             return $this->error(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());
         }

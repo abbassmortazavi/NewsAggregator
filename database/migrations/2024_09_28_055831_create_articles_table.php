@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->text('content')->nullable();
-            $table->string('author')->nullable();
-            $table->string('source')->nullable();
+            $table->string('type')->index()->nullable();
+            $table->text('description')->nullable();
+            $table->string('author')->index()->nullable();
+            $table->json('source')->nullable();
             $table->string('category')->nullable();
-            $table->string('url')->nullable();
+            $table->text('url')->nullable();
+            $table->text('url_to_image')->nullable();
             $table->dateTime('published_at')->nullable();
 
             $table->timestamps();

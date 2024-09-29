@@ -65,7 +65,7 @@ class VerificationCodeService implements VerificationCodeServiceInterface
      * @param object $user
      * @return void
      */
-    public function deleteAllUserVerificationCodes(object $user): void
+    private function deleteAllUserVerificationCodes(object $user): void
     {
         $user->verificationCodes()->delete();
     }

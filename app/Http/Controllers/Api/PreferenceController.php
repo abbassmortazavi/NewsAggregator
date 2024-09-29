@@ -94,7 +94,6 @@ class PreferenceController extends Controller
      *         description="Internal Server Error"
      *     )
      * )
-     *
      * @param Request $request
      * @return ApiResponseResource
      */

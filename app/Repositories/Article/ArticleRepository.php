@@ -5,7 +5,6 @@ namespace App\Repositories\Article;
 use App\Base\BaseRepository;
 use App\Models\Article;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Model;
 
 class ArticleRepository extends BaseRepository implements ArticleRepositoryInterface
 {

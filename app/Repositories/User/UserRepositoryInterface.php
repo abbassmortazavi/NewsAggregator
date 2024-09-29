@@ -17,5 +17,9 @@ interface UserRepositoryInterface
      */
     public function login(array $attributes): mixed;
 
+    /**
+     * @param string $email
+     * @return mixed
+     */
     public function getUser(string $email): mixed;
 }

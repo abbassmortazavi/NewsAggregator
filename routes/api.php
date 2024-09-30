@@ -23,7 +23,13 @@ Route::controller(UserController::class)->group(function () {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/logout', [UserController::class, 'logout']);
 
-    Route::resource('articles', ArticleController::class);
+    Route::prefix('articles')->controller(ArticleController::class)->middleware('throttle:api')->group(function () {
+        Route::get('', 'index');
+        Route::get('search', 'search');
+        Route::get('{article}', 'show');
+    });
+
+
     Route::controller(PreferenceController::class)->middleware('throttle:api')->group(function () {
         Route::post('/preferences', 'updateOrCreate');
         Route::get('/preferences', 'userPreference');

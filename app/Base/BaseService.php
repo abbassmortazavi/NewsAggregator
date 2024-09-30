@@ -19,9 +19,9 @@ class BaseService
 
     /**
      * @param array $attributes
-     * @return LengthAwarePaginator
+     * @return mixed
      */
-    public function index(array $attributes): LengthAwarePaginator
+    public function index(array $attributes): mixed
     {
         return $this->repository->index($attributes);
     }

@@ -4,7 +4,7 @@ namespace App\Http\Requests\Article;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ArticleIndexRequest extends FormRequest
+class ArticleSearchRequest extends FormRequest
 {
     /**
      * @return bool

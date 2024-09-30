@@ -11,9 +11,4 @@ namespace App\Repositories\VerificationCode;
 
 interface VerificationCodeRepositoryInterface
 {
-    /**
-     * @param array $attributes
-     * @return mixed
-     */
-    public function sendCode(array $attributes): mixed;
 }

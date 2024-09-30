@@ -10,23 +10,16 @@
 
 namespace App\Repositories\VerificationCode;
 
+use App\Base\BaseRepository;
 use App\Models\VerificationCode;
 
-class VerificationCodeRepository implements VerificationCodeRepositoryInterface
+class VerificationCodeRepository extends BaseRepository implements VerificationCodeRepositoryInterface
 {
     /**
-     * @param VerificationCode $verificationCode
+     * @param VerificationCode $model
      */
-    public function __construct(protected VerificationCode $verificationCode)
+    public function __construct(VerificationCode $model)
     {
-    }
-
-    /**
-     * @param array $attributes
-     * @return mixed
-     */
-    public function sendCode(array $attributes): mixed
-    {
-        return $this->verificationCode->query()->create($attributes);
+        parent::__construct($model);
     }
 }

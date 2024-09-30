@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class ArticleTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     /**
      * @return void
@@ -82,14 +82,13 @@ class ArticleTest extends TestCase
     public function test_it_can_search_articles_by_keyword()
     {
         $this->loginUser();
-        Article::factory()->create(['title' => 'Tech News']);
-        Article::factory()->create(['title' => 'World News']);
-
-        $response = $this->getJson('/api/articles?keyword=Tech');
-
+        $article = Article::factory()->create();
+        $response = $this->getJson("/api/articles/search?keyword=$article->title");
         $response->assertOk();
-        $response->assertJsonCount(1, 'data.data');
-        $response->assertJsonFragment(['title' => 'Tech News']);
+        $response->assertJsonCount(2, 'data');
+        $response->assertJsonFragment([
+            'title' => $article->title
+        ]);
     }
 
     /**

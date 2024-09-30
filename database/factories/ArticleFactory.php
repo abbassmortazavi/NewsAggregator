@@ -17,7 +17,7 @@ class ArticleFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(),
+            'title' => $this->faker->title(),
             'content' => $this->faker->paragraph(),
             'url' => $this->faker->url(),
             'source' => 'NewsAPI',

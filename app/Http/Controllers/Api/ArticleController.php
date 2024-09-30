@@ -27,35 +27,28 @@ class ArticleController extends Controller
 
     /**
      * @OA\Get(
-     *       path="/api/articles?page={page}&per_page={per_page}",
-     *       summary="Article",
+     *       path="/api/articles",
+     *       summary="Get paginated list of articles",
      *       tags={"Article"},
      *
      *     @OA\Parameter(
-     *          name="page",
-     *          in="query",
-     *          required=false,
-     *          description="Article Page",
-     *          @OA\Schema(
-     *              type="int"
-     *          )
+     *           name="per_page",
+     *           in="query",
+     *           required=false,
+     *           description="Number of articles per page",
+     *           @OA\Schema(type="integer")
      *      ),
      *      @OA\Parameter(
-     *          name="per_page",
-     *          in="query",
-     *          required=false,
-     *          description="Article Per Page",
-     *          @OA\Schema(
-     *              type="int"
-     *          )
-     *     ),
+     *            name="page",
+     *            in="query",
+     *            required=false,
+     *            description="Current page number",
+     *            @OA\Schema(type="integer")
+     *       ),
      *
      * @OA\Response(
      *       response=200,
      *        description="Success",
-     *       @OA\MediaType(
-     *            mediaType="application/json",
-     *       )
      *    ),
      * @OA\Response(
      *       response=401,
@@ -63,7 +56,7 @@ class ArticleController extends Controller
      *    ),
      * @OA\Response(
      *       response=404,
-     *       description="not found"
+     *       description="Not Found"
      *    ),
      * @OA\Response(
      *         response=422,
@@ -87,7 +80,7 @@ class ArticleController extends Controller
      *       path="/api/articles/{id}",
      *       summary="Article",
      *       tags={"Article"},
-     *
+     *      security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *          name="id",
      *          in="query",
@@ -135,7 +128,7 @@ class ArticleController extends Controller
      *       path="/api/articles/search",
      *       summary="Article",
      *       tags={"Article"},
-     *
+     *       security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *          name="category",
      *          in="query",
@@ -191,8 +184,6 @@ class ArticleController extends Controller
     {
         try {
             $result = ArticleSearchResource::collection($this->service->search($request->only('keyword', 'category', 'source', 'date')));
-
-
             return $this->success($result, Response::HTTP_OK, 'Search Article Successfully!');
         } catch (Exception $exception) {
             return $this->error(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());

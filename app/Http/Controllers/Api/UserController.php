@@ -15,6 +15,7 @@ use App\Traits\UtilityResources\UtilityResources;
 use App\Transformers\ApiResponseResource;
 use Exception;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -154,7 +155,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *       path="/api/register",
+     *       path="/api/logout",
      *       summary="Athentication",
      *       tags={"Athentication"},
      *       security={{"bearerAuth":{}}},

@@ -10,6 +10,7 @@
 
 namespace App\Services\VerificationCode;
 
+use App\Base\BaseService;
 use App\Mail\SendVerificationCodeToEmail;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\VerificationCode\VerificationCodeRepositoryInterface;
@@ -19,10 +20,11 @@ use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-class VerificationCodeService implements VerificationCodeServiceInterface
+class VerificationCodeService extends BaseService implements VerificationCodeServiceInterface
 {
-    public function __construct(protected VerificationCodeRepositoryInterface $repository)
+    public function __construct(VerificationCodeRepositoryInterface $repository)
     {
+        parent::__construct($repository);
     }
 
     /**
@@ -33,19 +35,30 @@ class VerificationCodeService implements VerificationCodeServiceInterface
     public function sendCode(array $attributes): mixed
     {
         $user = app(UserRepositoryInterface::class)->getUser($attributes['email']);
+        throw_if(is_null($user), new Exception('User Not Found!', Response::HTTP_INTERNAL_SERVER_ERROR));
         throw_if(!$this->checkVerificationCode($user), new Exception(trans('After Two minute You can Requested Again!!')));
+        $data = $this->prepareData($user);
 
-        $attributes['code'] = $this->generateCode();
-        $attributes['expired_at'] = now()->addMinutes((int)env('VERIFICATION_EXPIRED'));
-        $attributes['user_id'] = $user->id;
         //delete all verification code
         if (count($user->verificationCodes) > 0) {
             $this->deleteAllUserVerificationCodes($user);
         }
         $name = $user->name ?? "User";
-        Mail::to($user->email)->send(new SendVerificationCodeToEmail($name, $attributes['code']));
+        Mail::to($user->email)->send(new SendVerificationCodeToEmail($name, $data['code']));
 
-        return $this->repository->sendCode($attributes);
+        return $this->repository->store($data);
+    }
+
+    /**
+     * @param object $user
+     * @return array
+     */
+    private function prepareData(object $user): array
+    {
+        $attributes['code'] = $this->generateCode();
+        $attributes['expired_at'] = now()->addMinutes((int)env('VERIFICATION_EXPIRED'));
+        $attributes['user_id'] = $user->id;
+        return $attributes;
     }
 
     /**
@@ -80,35 +93,26 @@ class VerificationCodeService implements VerificationCodeServiceInterface
 
     /**
      * @throws Exception
+     * @throws Throwable
      */
-    public function verifyCode(array $attributes): true
+    public function verifyCode(array $attributes): bool
     {
         $user = app(UserRepositoryInterface::class)->getUser($attributes['email']);
         $latestCode = $user->verificationCodes()->latest()->first();
-
-        if (!is_null($latestCode)) {
-
-            if ((bool)$latestCode->used === true) {
-                throw new Exception(trans('Code is Used!'));
-            }
-
-            if ($latestCode->code === (int)$attributes['code']) {
-                $latestCode->update(['used' => true]);
-                return true;
-            } else {
-                throw new Exception(trans('Code is not valid!'), Response::HTTP_INTERNAL_SERVER_ERROR);
-            }
-        }
-        throw new Exception(trans('Not Send Any Code'), Response::HTTP_INTERNAL_SERVER_ERROR);
+        throw_if(is_null($latestCode), new Exception(trans('Not Send Any Code!!')));
+        throw_if((bool)$latestCode->used === true, new Exception(trans('Code is Used!!!')));
+        return $latestCode->code === (int)$attributes['code'] ? tap($latestCode)->update(['used' => true]) && true : throw new Exception(trans('Code is not valid!'), Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
      * @param array $attributes
-     * @return mixed
+     * @return true
+     * @throws Throwable
      */
-    public function resetPassword(array $attributes): mixed
+    public function resetPassword(array $attributes): true
     {
         $user = app(UserRepositoryInterface::class)->getUser($attributes['email']);
+        throw_if(is_null($user), new Exception("User Not Found!", Response::HTTP_INTERNAL_SERVER_ERROR));
         $attributes['password'] = Hash::make($attributes['password']);
         app(UserRepositoryInterface::class)->update($user, $attributes);
         return true;

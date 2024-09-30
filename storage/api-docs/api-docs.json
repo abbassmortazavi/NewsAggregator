@@ -5,45 +5,42 @@
         "version": "0.1"
     },
     "paths": {
-        "/api/articles?page={page}&per_page={per_page}": {
+        "/api/articles": {
             "get": {
                 "tags": [
                     "Article"
                 ],
-                "summary": "Article",
-                "operationId": "d866f5a2cda4352c3389acb1ca88928c",
+                "summary": "Get paginated list of articles",
+                "operationId": "93ded9e31119e6bbb22455c72ef97f19",
                 "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "Article Page",
-                        "required": false,
-                        "schema": {
-                            "type": "int"
-                        }
-                    },
                     {
                         "name": "per_page",
                         "in": "query",
-                        "description": "Article Per Page",
+                        "description": "Number of articles per page",
                         "required": false,
                         "schema": {
-                            "type": "int"
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Current page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {}
-                        }
+                        "description": "Success"
                     },
                     "401": {
                         "description": "Unauthenticated"
                     },
                     "404": {
-                        "description": "not found"
+                        "description": "Not Found"
                     },
                     "422": {
                         "description": "Unprocessable Entity"
@@ -85,7 +82,72 @@
                     "422": {
                         "description": "Unprocessable Entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/articles/search": {
+            "get": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Article",
+                "operationId": "b2a37f58fc1f822aac6033aeca788724",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Article Category",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "source",
+                        "in": "query",
+                        "description": "Article Per Source",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "description": "Article Date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/preferences": {
@@ -288,35 +350,6 @@
             }
         },
         "/api/register": {
-            "get": {
-                "tags": [
-                    "Athentication"
-                ],
-                "summary": "Athentication",
-                "operationId": "d9e45f8340c8b8a80506259806173616",
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated"
-                    },
-                    "404": {
-                        "description": "not found"
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
             "post": {
                 "tags": [
                     "Athentication"
@@ -369,6 +402,37 @@
                         "description": "Unprocessable Entity"
                     }
                 }
+            }
+        },
+        "/api/logout": {
+            "get": {
+                "tags": [
+                    "Athentication"
+                ],
+                "summary": "Athentication",
+                "operationId": "b5b0e4026ed3cc40a861d3e9c4b7f0e4",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/password/send-code": {
@@ -507,6 +571,15 @@
                         "description": "Unprocessable Entity"
                     }
                 }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "plain",
+                "scheme": "bearer"
             }
         }
     },

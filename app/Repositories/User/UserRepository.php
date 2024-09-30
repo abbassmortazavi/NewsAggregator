@@ -66,9 +66,9 @@ class UserRepository implements UserRepositoryInterface
 
     /**
      * @param string $email
-     * @return User|Model
+     * @return Model|User|null
      */
-    public function getUser(string $email): Model|User
+    public function getUser(string $email): Model|User|null
     {
         return $this->user->query()->where('email', $email)->firstOrFail();
     }

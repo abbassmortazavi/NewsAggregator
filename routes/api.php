@@ -11,7 +11,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::controller(UserController::class)->group(function () {
+Route::controller(UserController::class)->middleware('throttle:api')->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login')->middleware('throttle:api');
     Route::post('/password/reset-password', 'resetPassword');
@@ -28,7 +28,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('search', 'search');
         Route::get('{article}', 'show');
     });
-
 
     Route::controller(PreferenceController::class)->middleware('throttle:api')->group(function () {
         Route::post('/preferences', 'updateOrCreate');

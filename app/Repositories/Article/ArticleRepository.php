@@ -6,7 +6,6 @@ use App\Base\BaseRepository;
 use App\Models\Article;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Redis;
 
 class ArticleRepository extends BaseRepository implements ArticleRepositoryInterface

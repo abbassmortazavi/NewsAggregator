@@ -12,6 +12,12 @@ namespace App\Repositories\User;
 interface UserRepositoryInterface
 {
     /**
+     * @param object $user
+     * @param array $attributes
+     * @return mixed
+     */
+    public function update(object $user, array $attributes): mixed;
+    /**
      * @param array $attributes
      * @return mixed
      */

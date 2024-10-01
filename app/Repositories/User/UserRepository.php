@@ -80,6 +80,6 @@ class UserRepository implements UserRepositoryInterface
      */
     public function update(object $user, array $attributes): bool
     {
-        return $this->user->query()->where('email', $user->email)->update($attributes);
+        return $user->query()->where('email', $user->email)->update($attributes);
     }
 }

@@ -1,21 +1,28 @@
-<p align="center"><a href="https://laravel.com" target="_blank"></a> Create Payment Gateway With ACI,SHIFT4
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<p align="center"><a href="https://laravel.com" target="_blank"></a> Create News Aggregator API
+
 
 
 
 ## Services
 - Nginx
+- Docker
 - Mysql(8.0.13)
 - PHP(8.3)
 - PhpMyAdmin
 - Composer
 - Redis
 - Laravel 11
+
+
+## Clone Project
+```sh
+- First of All Clone Project From bottom url : 
+  https://github.com/abbassmortazavi/NewsAggregator.git
+After clone, in root project in command line run this command before migrate : 
+  cp .env.example .env
+```
+
+
 
 ## Installation
 ```sh
@@ -47,7 +54,7 @@ docker-compose exec -it php bash
   php artisan fetch:article
   or
   php artisan schedule:run
-  this command get data from third part api and store in database
+  this command get data from third-party api and store or update in database
 ```
 
 ## Run Project for test Api
@@ -61,7 +68,7 @@ sample : http://localhost:8082/api/login
 ```sh
 This Project Use Redis For Caching and also handel queue with redis.
 After All container up you can access redis-commander with this url :
- like this :http://localhost:8085
+ like this: http://localhost:8085
 ```
 
 ## Api Documentation
@@ -70,10 +77,7 @@ Use Swagger for Api Documentation:
 http://localhost:8082/api/documentation
 ```
 
-## Api Test
+## Api Test 
 ```sh
  php artisan test
 ```
-
-## Demo Video Link
-<a href="https://www.awesomescreenshot.com/video/30647872?key=c189c71bb38491fae896cdb92ef6397e">Please click to watch Demo</a>

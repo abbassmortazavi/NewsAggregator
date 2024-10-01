@@ -76,4 +76,25 @@ class ArticleRepository extends BaseRepository implements ArticleRepositoryInter
             ->when(isset($attributes['date']), fn(Builder $query) => $query->where('published_at', 'like', '%' . $attributes['date'] . '%'))
             ->paginate(50);
     }
+
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
+    public function updateOrCreate(array $attributes): mixed
+    {
+        return $this->model->query()->updateOrCreate(
+            ['title' => $attributes['title']],
+            [
+                'content' => $attributes['content'] ?? null,
+                'type' => $attributes['type'],
+                'description' => $attributes['description'] ?? null,
+                'author' => $attributes['author'] ?? null,
+                'source' => $attributes['source'] ?? null,
+                'category' => $attributes['category'] ?? null,
+                'url_to_image' => $attributes['url_to_image'] ?? null,
+                'published_at' => $attributes['published_at'] ?? null,
+            ]
+        );
+    }
 }

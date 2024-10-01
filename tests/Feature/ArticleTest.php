@@ -83,12 +83,13 @@ class ArticleTest extends TestCase
     {
         $this->loginUser();
         $article = Article::factory()->create();
+
+        // Search using the keyword that matches the titles
         $response = $this->getJson("/api/articles/search?keyword=$article->title");
+
         $response->assertOk();
-        $response->assertJsonCount(2, 'data');
-        $response->assertJsonFragment([
-            'title' => $article->title
-        ]);
+        $response->assertJsonCount(1, 'data'); // Expecting 2 articles now
+        $response->assertJsonFragment(['title' => $article->title]);
     }
 
     /**

@@ -15,4 +15,9 @@ interface ArticleRepositoryInterface
      * @return mixed
      */
     public function search(array $attributes): mixed;
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
+    public function updateOrCreate(array $attributes): mixed;
 }

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Repositories\Article\ArticleRepositoryInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class FetchArticleWithThirdApi extends Command
 {
@@ -39,15 +40,18 @@ class FetchArticleWithThirdApi extends Command
     {
         $newsApiUrl = config('services.news.newsapi.url');
         $newsApiKey = config('services.news.newsapi.api_key');
-        $res = Http::get("$newsApiUrl?q=tesla&from=2024-08-29&sortBy=publishedAt&apiKey=$newsApiKey");
+        $res = Http::get("$newsApiUrl?q=tesla&sortBy=publishedAt&apiKey=$newsApiKey");
 
         $articles = $res->json()['articles'];
+
         foreach ($articles as $article) {
             //store article
+
             $article['url_to_image'] = $article['urlToImage'];
+            $article['title'] = Str::limit($article['title'], 150);
             $article['published_at'] = $article['publishedAt'];
             $article['type'] = "NewsApi";
-            $this->storeArticle($article);
+            $this->updateOrCreate($article);
         }
     }
 
@@ -55,9 +59,9 @@ class FetchArticleWithThirdApi extends Command
      * @param array $article
      * @return void
      */
-    private function storeArticle(array $article): void
+    private function updateOrCreate(array $article): void
     {
-        app(ArticleRepositoryInterface::class)->store($article);
+        app(ArticleRepositoryInterface::class)->updateOrCreate($article);
     }
 
     /**
@@ -79,12 +83,12 @@ class FetchArticleWithThirdApi extends Command
         foreach ($articles as $article) {
             $arr['content'] = $article['content'] ?? null;
             $arr['author'] = $article['author'] ?? null;
-            $arr['title'] = $article['webTitle'];
+            $arr['title'] = Str::limit($article['webTitle'], 150);
             $arr['type'] = "guardian";
             $arr['category'] = "Technology";
             $arr['url'] = $article['webUrl'];
             $arr['published_at'] = $article['webPublicationDate'];
-            $this->storeArticle($arr);
+            $this->updateOrCreate($arr);
         }
     }
 }
